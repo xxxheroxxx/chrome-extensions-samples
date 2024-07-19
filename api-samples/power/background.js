@@ -1,28 +1,15 @@
-// Copyright (c) 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-/**
- * States that the extension can be in.
- */
+// 객체 생성
 let StateEnum = {
   DISABLED: 'disabled',
   DISPLAY: 'display',
   SYSTEM: 'system'
 };
 
-/**
- * Key used for storing the current state in {localStorage}.
- */
-let STATE_KEY = 'state';
-
-/**
- * Loads the locally-saved state asynchronously.
- * @param {function} callback Callback invoked with the loaded {StateEnum}.
- */
+// 'state'에 저장된 값('disabled', 'display', 'system' 중 하나)을 불러와 callback 함수에 변수로 입력
+// 다른 값이 들어있으면 'disabled'로 입력
 function loadSavedState(callback) {
-  chrome.storage.local.get(STATE_KEY, function (items) {
-    let savedState = items[STATE_KEY];
+  chrome.storage.local.get('state', function (items) {
+    let savedState = items['state'];
     for (let key in StateEnum) {
       if (savedState == StateEnum[key]) {
         callback(savedState);
@@ -62,7 +49,7 @@ function setState(newState) {
   }
 
   let items = {};
-  items[STATE_KEY] = newState;
+  items['state'] = newState;
   chrome.storage.local.set(items);
 
   chrome.action.setIcon({
