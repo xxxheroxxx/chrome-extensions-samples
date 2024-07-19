@@ -20,10 +20,7 @@ function loadSavedState(callback) {
   });
 }
 
-/**
- * Switches to a new state.
- * @param {string} newState New {StateEnum} to use.
- */
+// newState값을 스토리지에 저장, 액션 아이콘 변경, 타이틀 변경
 function setState(newState) {
   let imagePrefix = 'night';
   let title = '';
@@ -61,6 +58,7 @@ function setState(newState) {
   chrome.action.setTitle({ title: title });
 }
 
+// 아이콘 클릭 시 다음 상태로 변경
 chrome.action.onClicked.addListener(function () {
   loadSavedState(function (state) {
     switch (state) {
@@ -79,6 +77,7 @@ chrome.action.onClicked.addListener(function () {
   });
 });
 
+// 시작할 때 상태를 불러와서 저장하고 적용
 chrome.runtime.onStartup.addListener(function () {
   loadSavedState(function (state) {
     setState(state);
